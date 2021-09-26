@@ -1,0 +1,216 @@
+﻿@model EmployeeInfo
+@{
+    ViewData["Title"] = "HR Paging List";
+    string action = ViewContext.RouteData.Values["action"].ToString();
+}
+@section Styles {
+   <link href="~/utils/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+@section Scripts {
+    <script src="~/utils/jquery.dataTables.min.js"></script>
+    <script src="~/utils/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hrList').DataTable({
+                paging : false,
+                "searching" : false,
+                "info" : false
+            });
+        });
+    </script>
+}
+<h1 class="h3 mb-2 text-gray-800">@ViewData["Title"]</h1>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="HR" asp-action="Index">HR List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="HR" asp-action="Ajax">HR Ajax List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active">HR Paging List</a>
+    </li>
+</ul>
+<p class="mb-4 note">
+    인사관리를 위한 리스트를 출력하라.
+</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">인사 리스트</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-striped" style="overflow-x:hidden;">
+            <div id="hrList_wrapper"
+                 class="dataTables_wrapper dt-bootstrap4">
+                 <form method="post" asp-controller="HR" asp-action="List"
+                       onsubmit="btnSearch.disabled = true; return true;">
+                       <div class="text-danger"
+                            asp-validation-summary="ModelOnly"></div>
+                       <div class="row">
+                           <div class="col-sm-12 col-md-6">
+                               @* Select 박스 페이지 데이터 개수 지정하는 부분 *@
+                               <div id="hrList_length"
+                                    class="dataTables_length">
+                                    <label>Show
+                                        <select asp-for="PagingInfo.ItemsPerPage"
+                                                aria-controls="hrList"
+                                                class="custom-select custom-select-sm
+                                                       form-control form-control-sm">
+                                            <option value="7" selected="selected">7</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        entries</label>
+                               </div>
+                           </div>
+                           <div class="col-sm-12 col-md-6">
+                               @* 직원명을 검색하는 부분 *@
+                               <div id="hrList_filter" class="dataTables_filter">
+                                   <label>Name:
+                                       <input type="search" asp-for="PagingInfo.SearchName"
+                                              class="form-control form-control-sm"
+                                              placeholder="Employee Name"
+                                              aria-controls="hrList"
+                                              autofocus autocomplete="off" />
+                                       <button type="submit" name="btnSearch"
+                                               class="btn btn-sm btn-primary">Search</button>
+                                   </label>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           @* 테이블 *@
+                           <div class="col-sm-12">
+                               <table class="table table-bordered" id="hrList" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px;" class="text-center bg-warning">#</th>
+                                            <th style="width:170px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].FirstName)
+                                            </th>
+                                            <th style="width:270px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].PositionName)
+                                            </th>
+                                            <th style="width:100px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].OfficeLocation)
+                                            </th>
+                                            <th style="width:40px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].Age)
+                                            </th>
+                                            <th style="width:100px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].StartDate)
+                                            </th>
+                                            <th style="width:80px;" class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].Salary)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Employees == null
+                                            || Model.Employees.Count < 1)
+                                        {
+                                            <tr>
+                                                <td colspan="7">
+                                                    @if (!string.IsNullOrWhiteSpace(Model.PagingInfo.SearchName))
+                                                    {
+                                                        @: 검색결과와 일치하는 데이터가 없습니다.
+                                                    }
+                                                    else {
+                                                        @: 데이터가 없습니다.
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                        else {
+                                            foreach (var item in Model.Employees)
+                                            {
+                                                <tr>
+                                                    <td>@item.SortNo</td>
+                                                    <td>@item.EmployeeName</td>
+                                                    <td>@item.PositionName</td>
+                                                    <td>@item.OfficeLocation</td>
+                                                    <td>@item.Age</td>
+                                                    <td>@item.StartDateString</td>
+                                                    <td>@item.SalaryString</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center bg-warning">#</th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].FirstName)
+                                            </th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].PositionName)
+                                            </th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].OfficeLocation)
+                                            </th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].Age)
+                                            </th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].StartDate)
+                                            </th>
+                                            <th class="text-center bg-warning">
+                                                @Html.DisplayNameFor(m => m.Employees[0].Salary)
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-sm-12 col-md-6">
+                               @* 데이터 정보를 보여주는 부분 *@
+                               <div id="hrList_info" class="dataTables_info"
+                                    role="status" aria-live="polite">
+                                    @*Showing 1 to 7 of 44 entries(filtered from 57 total entries)*@
+                                @if (Model.Employees != null
+                                     && Model.Employees.Count > 0)
+                                {
+                                    int lastItem = Model.PagingInfo.LastItem;
+
+                                    //49 >= 44
+                                    if (lastItem >= Model.PagingInfo.TotalItems)
+                                    {
+                                        // 49(X), 44(O)
+                                        lastItem = Model.PagingInfo.TotalItems;
+                                    }
+
+                                    @:Showing @(Model.PagingInfo.FirstItem + " to ")
+                                              @(lastItem + " of ")
+                                              @(Model.PagingInfo.TotalItems + " entries")
+                                    if (!string.IsNullOrWhiteSpace(Model.PagingInfo.SearchName))
+                                    {
+                                        @:(filtered from @(Model.PagingInfo.TotalEntries + " total entries)")
+                                    }
+                                }
+                            </div>
+                           </div>
+                           <div class="col-sm-12 col-md-6">
+                               @* 페이징 부분 *@
+                               <div id="hrList_paginate"
+                                    class="dataTables_paginate paging_full_numbers">
+                                    <input type="hidden" asp-for="PagingInfo.CurrentPage" />
+                                    @*<partial name="_Paginate" model="Model.PagingInfo" />*@
+                                    <ul class="pagination" page-model="@Model.PagingInfo"
+                                        page-controller="HR" page-action="List"
+                                        page-classes-enabled="true"
+                                        page-class="paginate_button page-item"
+                                        page-a-class="page-link"
+                                        page-class-normal=""
+                                        page-class-selected="active">
+                                    </ul>
+                               </div>
+                           </div>
+                       </div>
+                 </form>
+            </div>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@using DotNetAMA.Svcs
+@model Dictionary<string, string>
+@inject ISingletonLifeTime singletonLT
+@inject IScopedLifeTime scopedLT
+@inject ITransientLifeTime transientLT
+@{
+    ViewData["Title"] = "Lifetime";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>From Action Method</h4>
+@foreach(var key in Model.Keys) {
+    string style = string.Empty;
+    if (key.Contains("singleton")) { style = "text-primary"; }
+    else if (key.Contains("scoped")) { style = "text-success"; }
+    else if (key.Contains("transient")) { style = "text-danger"; }
+    <span class="@style">@key : </span> @Model[key] <br />
+}
+<hr />
+<h4>In View</h4>
+<span class="text-primary">singleton : </span> @singletonLT._requestId <br />
+<span class="text-success">scoped : </span> @scopedLT._requestId <br />
+<span class="text-danger">transient : </span> @transientLT._requestId
