@@ -69,14 +69,22 @@
     </li>*@
     @for(int index = Model.StartPage; index <= Model.EndPage; index++)
     {
-        string active = Model.CurrentPage == index ? "active" : string.Empty;
+        string active = string.Empty;
+        string aLink = Url.Action("List", "HR",
+                             new { PageNo = index,
+                                   PageSize = Model.ItemsPerPage,
+                                   SearchName = Model.SearchName});
+
+        if (Model.CurrentPage == index)
+        {
+            active = "active";
+            aLink = "#";
+        }
+
         <li class="@active paginate_button
                 page-item">
         <a class="page-link"
-           href="@Url.Action("List", "HR",
-                             new { PageNo = index,
-                                   PageSize = Model.ItemsPerPage,
-                                   SearchName = Model.SearchName})">@index</a>
+           href="@aLink">@index</a>
         </li>
     }
     <li id="next"

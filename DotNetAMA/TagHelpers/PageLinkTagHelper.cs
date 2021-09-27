@@ -147,17 +147,25 @@ namespace DotNetAMA.TagHelpers
             {
                 TagBuilder li = new TagBuilder("li");
                 TagBuilder a = new TagBuilder("a");
-                a.Attributes["href"] = urlHelper.Action(PageAction,
-                                                        PageController,
-                                                        new { PageNo = index,
-                                                              PageSize = PageModel.ItemsPerPage,
-                                                              SearchName = PageModel.SearchName});
+                string aLink = urlHelper.Action(PageAction,
+                                                PageController,
+                                                new {
+                                                    PageNo = index,
+                                                    PageSize = PageModel.ItemsPerPage,
+                                                    SearchName = PageModel.SearchName
+                                                });
+                if (PageModel.CurrentPage == index)
+                {
+                    aLink = "#";
+                }
+
+                a.Attributes["href"] = aLink;
 
                 // CSS 지정
                 if (PageClassesEnabled)
                 {
                     li.AddCssClass(PageClass);
-                    li.AddCssClass(index == PageModel.CurrentPage ?
+                    li.AddCssClass(PageModel.CurrentPage == index ?
                                    PageClassSelected : PageClassNormal);
                     a.AddCssClass(PageAClass);
                 }

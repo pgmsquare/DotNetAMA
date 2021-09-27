@@ -72,3 +72,5 @@ body {
 
 /* Custom css */
 p.note { margin-top: 20px; }
+
+ul.pagination li.active a { cursor:default; }
