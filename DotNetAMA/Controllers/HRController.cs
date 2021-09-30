@@ -60,23 +60,33 @@ namespace DotNetAMA.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ListAsync(PagingInfo pagingInfo)
         {
-            if (!ModelState.IsValid
-                && !string.IsNullOrWhiteSpace(pagingInfo.SearchName))
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "검색명을 올바르게 입력하세요.");
+                if (pagingInfo.CurrentPage < 1)
+                {
+                    ModelState.AddModelError("Info", "현재 페이지 정보를 올바르게 입력하세요.");
+                }
+
+                if (pagingInfo.ItemsPerPage < 1)
+                {
+                    ModelState.AddModelError("Info", "페이지 데이터 개수 정보를 올바르게 입력하세요.");
+                }
+
+                ModelState.AddModelError("Info", "페이징 정보를 올바르게 입력하세요.");
 
                 var employeeInfo =
-                    await _employee.GetEmployeeInfoAsync(pagingInfo.CurrentPage,
-                                                         pagingInfo.ItemsPerPage,
-                                                         pagingInfo.NumberLinksPerPage,
-                                                         pagingInfo.SearchName);
+                await _employee.GetEmployeeInfoAsync(pagingInfo.CurrentPage,
+                                                     pagingInfo.ItemsPerPage,
+                                                     int.Parse(_configuration["Paging:NumberLinksPerPage"]),
+                                                     pagingInfo.SearchName);
 
                 return View("List", employeeInfo);
             }
 
-            return RedirectToAction("List", new { pageNo = pagingInfo.CurrentPage,
-                                                  pageSize = pagingInfo.ItemsPerPage,
-                                                  searchName = pagingInfo.SearchName});
+            return RedirectToAction("List", "HR",
+                                    new { PageNo = pagingInfo.CurrentPage,
+                                          PageSize = pagingInfo.ItemsPerPage,
+                                          SearchName = pagingInfo.SearchName });
         }
     }
 }

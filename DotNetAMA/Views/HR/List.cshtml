@@ -44,9 +44,18 @@
                  class="dataTables_wrapper dt-bootstrap4">
                  <form method="post" asp-controller="HR" asp-action="List"
                        onsubmit="btnSearch.disabled = true; return true;">
-                       <div class="text-danger"
-                            asp-validation-summary="ModelOnly"></div>
-                       <div class="row">
+                       @*<div class="text-danger"
+                            asp-validation-summary="ModelOnly"></div>*@
+                        @if (ViewData.ModelState["Info"] != null)
+                        {
+                            @: <ul>
+                                foreach (var error in ViewData.ModelState["Info"].Errors)
+                                {
+                                    <li class="text-danger">@error.ErrorMessage</li>
+                                }
+                            @: </ul>
+                        }
+                        <div class="row">
                            <div class="col-sm-12 col-md-6">
                                @* Select 박스 페이지 데이터 개수 지정하는 부분 *@
                                <div id="hrList_length"
@@ -196,15 +205,7 @@
                                <div id="hrList_paginate"
                                     class="dataTables_paginate paging_full_numbers">
                                     <input type="hidden" asp-for="PagingInfo.CurrentPage" />
-                                    @*<partial name="_Paginate" model="Model.PagingInfo" />*@
-                                    <ul class="pagination" page-model="@Model.PagingInfo"
-                                        page-controller="HR" page-action="List"
-                                        page-classes-enabled="true"
-                                        page-class="paginate_button page-item"
-                                        page-a-class="page-link"
-                                        page-class-normal=""
-                                        page-class-selected="active">
-                                    </ul>
+                                    <partial name="_Paginate" model="Model.PagingInfo" />
                                </div>
                            </div>
                        </div>

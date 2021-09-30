@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,13 +26,15 @@ namespace DotNetAMA.Utils
         /// <summary>
         /// 현재페이지
         /// </summary>
+        [Required(ErrorMessage = "현재 페이지 정보를 입력하세요.")]
+        [Range(1, int.MaxValue, ErrorMessage = "현재 페이지는 {1}페이지 이상입니다.")]
         public int CurrentPage { get; set; }
 
         /// <summary>
         /// 총 페이지 수
         /// </summary>
         public int TotalPage
-            => (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage);
+            => ItemsPerPage < 1 ? ItemsPerPage : (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage);
 
         /// <summary>
         /// 시작 페이지
@@ -46,6 +49,8 @@ namespace DotNetAMA.Utils
         /// <summary>
         /// 페이지 데이터 개수
         /// </summary>
+        [Required(ErrorMessage = "페이지 데이터 개수 정보를 입력하세요.")]
+        [Range(1, int.MaxValue, ErrorMessage = "페이지 데이터 개수는 {1}개 이상입니다.")]
         public int ItemsPerPage {  get; set; }
 
         /// <summary>
