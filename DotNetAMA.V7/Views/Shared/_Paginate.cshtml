@@ -1,0 +1,102 @@
+﻿@using DotNetAMA.V7.Utils
+@model PagingInfo
+@{
+    #region First, Previous
+    string headDisabled = string.Empty;
+    string firstHref = Url.Action("List", "HR",
+                                  new { PageNo = 1,
+                                        PageSize = Model.ItemsPerPage,
+                                        SearchName = Model.SearchName});
+    string prevHref = Url.Action("List", "HR",
+                                  new { PageNo = Model.CurrentPage - 1,
+                                        PageSize = Model.ItemsPerPage,
+                                        SearchName = Model.SearchName});
+
+    if (Model.CurrentPage == 1)
+    {
+        headDisabled = "disabled";
+        firstHref = "#";
+        prevHref = "#";
+    }
+    #endregion
+
+    #region Next, Last
+    string tailDisabled = string.Empty;
+    string nextHref = Url.Action("List", "HR",
+                                 new { PageNo = Model.CurrentPage + 1,
+                                       PageSize = Model.ItemsPerPage,
+                                       SearchName = Model.SearchName});
+    string lastHref = Url.Action("List", "HR",
+                                 new { PageNo = Model.TotalPage,
+                                       PageSize = Model.ItemsPerPage,
+                                       SearchName = Model.SearchName});
+
+    if (Model.CurrentPage == Model.TotalPage
+        || Model.TotalItems == 0)
+    {
+        tailDisabled = "disabled";
+        nextHref = "#";
+        lastHref = "#";
+    }
+    #endregion
+
+    #region Numbers
+    int pagingGroup = (int)Math.Ceiling((decimal)Model.CurrentPage / Model.NumberLinksPerPage);
+    Model.StartPage = (pagingGroup * Model.NumberLinksPerPage)
+                      - Model.NumberLinksPerPage + 1;
+    Model.EndPage = Model.StartPage + (Model.NumberLinksPerPage - 1);
+
+    if (Model.EndPage >= Model.TotalPage)
+    {
+        Model.EndPage = Model.TotalPage;
+    }
+    #endregion
+}
+<ul class="pagination">
+    <li id="first"
+        class="@headDisabled paginate_button
+                page-item first">
+        <a class="page-link" href="@firstHref">First</a>
+    </li>
+    <li id="previous"
+        class="@headDisabled paginate_button
+                page-item previous">
+        <a class="page-link" href="@prevHref">Previous</a>
+    </li>
+    @*<li class="active paginate_button
+                page-item">
+        <a class="page-link" href="/HR/List/1/7">1</a>
+    </li>*@
+    @for(int index = Model.StartPage; index <= Model.EndPage; index++)
+    {
+        string active = string.Empty;
+        string aLink = Url.Action("List", "HR",
+                             new { PageNo = index,
+                                   PageSize = Model.ItemsPerPage,
+                                   SearchName = Model.SearchName});
+
+        if (Model.CurrentPage == index)
+        {
+            active = "active";
+            aLink = "#";
+        }
+
+        <li class="@active paginate_button
+                page-item">
+        <a class="page-link"
+           href="@aLink">@index</a>
+        </li>
+    }
+    <li id="next"
+        class="@tailDisabled paginate_button
+                page-item next">
+        <a class="page-link"
+            href="@nextHref">Next</a>
+    </li>
+    <li id="last"
+        class="@tailDisabled paginate_button
+                page-item last">
+        <a class="page-link"
+            href="@lastHref">Last</a>
+    </li>
+</ul>

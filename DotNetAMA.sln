@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetAMA", "DotNetAMA\DotNetAMA.csproj", "{978728E9-E186-4455-937A-4FC285F42AB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Paging", "Test.Paging\Test.Paging.csproj", "{64CDDF3E-0101-4590-8303-9BD3F1F8D45D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Paging", "Test.Paging\Test.Paging.csproj", "{64CDDF3E-0101-4590-8303-9BD3F1F8D45D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetAMA.V7", "DotNetAMA.V7\DotNetAMA.V7.csproj", "{391D4728-6F62-4A4B-9B17-28703D5B67B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{64CDDF3E-0101-4590-8303-9BD3F1F8D45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64CDDF3E-0101-4590-8303-9BD3F1F8D45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64CDDF3E-0101-4590-8303-9BD3F1F8D45D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391D4728-6F62-4A4B-9B17-28703D5B67B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391D4728-6F62-4A4B-9B17-28703D5B67B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391D4728-6F62-4A4B-9B17-28703D5B67B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391D4728-6F62-4A4B-9B17-28703D5B67B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "HR Ajax List";
+}
+@section Styles {
+   <link href="~/utils/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+@section Scripts {
+    <script src="~/utils/jquery.dataTables.min.js"></script>
+    <script src="~/utils/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hrList').DataTable({
+                "pagingType" : "full_numbers",
+                "lengthMenu" : [5, 25, 50, 100],
+                "ajax" : "/api/Employees",
+                "columns" : [
+                    {"data": "sortNo"},
+                    {"data": "employeeName"},
+                    {"data": "positionName"},
+                    {"data": "officeLocation"},
+                    {"data": "age"},
+                    {"data": "startDateString"},
+                    {"data": "salaryString"}
+                ]
+            });
+        });
+    </script>
+}
+<h1 class="h3 mb-2 text-gray-800">@ViewData["Title"]</h1>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="HR" asp-action="Index">HR List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active">HR Ajax List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="HR" asp-action="List">HR Paging List</a>
+    </li>
+</ul>
+<p class="mb-4 note">
+    인사관리를 위한 리스트를 출력하라.
+</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">인사 리스트</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-striped">
+            <table class="table table-bordered" id="hrList" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center bg-warning">#</th>
+                        <th class="text-center bg-warning">
+                            Name
+                        </th>
+                        <th class="text-center bg-warning">
+                            Position
+                        </th>
+                        <th class="text-center bg-warning">
+                            Office
+                        </th>
+                        <th class="text-center bg-warning">
+                            Age
+                        </th>
+                        <th class="text-center bg-warning">
+                            Start date
+                        </th>
+                        <th class="text-center bg-warning">
+                            Salary
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">데이터가 없습니다.</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-center bg-warning">#</th>
+                        <th class="text-center bg-warning">
+                            Name
+                        </th>
+                        <th class="text-center bg-warning">
+                            Position
+                        </th>
+                        <th class="text-center bg-warning">
+                            Office
+                        </th>
+                        <th class="text-center bg-warning">
+                            Age
+                        </th>
+                        <th class="text-center bg-warning">
+                            Start date
+                        </th>
+                        <th class="text-center bg-warning">
+                            Salary
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
