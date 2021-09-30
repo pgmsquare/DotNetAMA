@@ -205,7 +205,15 @@
                                <div id="hrList_paginate"
                                     class="dataTables_paginate paging_full_numbers">
                                     <input type="hidden" asp-for="PagingInfo.CurrentPage" />
-                                    <partial name="_Paginate" model="Model.PagingInfo" />
+                                    @*<partial name="_Paginate" model="Model.PagingInfo" />*@
+                                    <ul class="pagination" page-model="@Model.PagingInfo"
+                                        page-controller="HR" page-action="List"
+                                        page-classes-enabled="true"
+                                        page-class="paginate_button page-item"
+                                        page-a-class="page-link"
+                                        page-class-normal=""
+                                        page-class-selected="active">
+                                    </ul>
                                </div>
                            </div>
                        </div>
