@@ -6,8 +6,8 @@ namespace DotNetAMA.V7.Svcs
     public class LoggerService : ILogger
     {
         private readonly NLog.ILogger _logger =
-            NLogBuilder.ConfigureNLog("nlog.config")
-                       .GetCurrentClassLogger();
+            LogManager.Setup().LoadConfigurationFromAppSettings()
+                      .GetCurrentClassLogger();
 
         private string _actionName;
 
