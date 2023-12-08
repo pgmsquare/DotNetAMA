@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NLog;
 using NLog.Web;
 
 namespace DotNetAMA.V7.Svcs
